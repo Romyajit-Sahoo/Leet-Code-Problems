@@ -5,41 +5,56 @@
 //   int val;
 //   struct ListNode *next;
 // };
-
 bool isPalindrome(struct ListNode *head)
 {
-  struct ListNode *temp = head, *sectemp = head;
-  int size = 0, i = 0;
+  struct ListNode *leftnull = head, *right = head, *temp = head, *left;
+  int mid, count = 0, i = 1;
 
   while (temp != NULL)
   {
-    size++;
+    count++;
     temp = temp->next;
   }
 
-  int arr[size];
-
-  while (sectemp != NULL)
+  if (count % 2 == 0)
   {
-    arr[i] = sectemp->val;
-    i++;
-    sectemp = sectemp->next;
+    mid = count / 2;
+  }
+  else
+  {
+    mid = (count / 2) + 1;
   }
 
-  int left = 0, right =  size - 1;
-  while (left < right)
+  while (i <= mid)
   {
-    if (arr[left] == arr[right])
+    leftnull = right;
+    right = right->next;
+    i++;
+  }
+  leftnull->next = NULL;
+  left = head;
+  struct ListNode *prev = NULL, *curr = right, *nextt = right;
+  while (curr != NULL)
+  {
+    nextt = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = nextt;
+  }
+
+  while (left != NULL && prev != NULL)
+  {
+    if (left->val == prev->val)
     {
-      left++;
-      right--;  
+      left = left->next;
+      prev = prev->next;
     }
     else
     {
       return false;
-
     }
     
   }
-  return  true ;
+
+  return true;
 }
